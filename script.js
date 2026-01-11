@@ -2,7 +2,7 @@
 
   // Your web app's Firebase configuration
   const firebaseConfig = {
-    apiKey: "AIzaSyBVBuILePkLplLaU7h5Q321xC4POP_Jscs",
+    apiKey: "AIzaSyDQ0USXawKchus3EDwUi3EnKGqU1Z0GO3A",
     authDomain: "zeegpt-pro.firebaseapp.com",
     projectId: "zeegpt-pro",
     storageBucket: "zeegpt-pro.firebasestorage.app",
@@ -25,7 +25,7 @@ const chatbotToggler = document.querySelector("#chatbot-toggler");
 const closeChatbot = document.querySelector("#close-chatbot");
 
 // API setup
-const API_KEY = "AIzaSyAaaGe5qyfu_rfrUmDj_2YxbD1u9mYamYw"; 
+const API_KEY = "AIzaSyDQ0USXawKchus3EDwUi3EnKGqU1Z0GO3A"; 
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
 // Initialize user message and file data
