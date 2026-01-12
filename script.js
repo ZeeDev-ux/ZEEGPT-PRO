@@ -138,39 +138,6 @@ loadMessagesFromFirestore();
 
 // --- 4. MAIN CHAT LOGIC ---
 
-// Generate bot response using API
-const generateBotResponse = async (incomingMessageDiv) => {
-  const messageElement = incomingMessageDiv.querySelector(".message-text");
-  
-  // Note: chatHistory already Firestore se update ho chuki hai
-  
-  const requestOptions = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: chatHistory, // Yeh ab updated history bhejega
-    }),
-  };
-
-  try {
-    // Fetch bot response from API
-    const response = await fetch(API_URL, requestOptions);
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.error.message);
-    
-    // Extract bot's response
-    const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
-    
-    // Thinking indicator hata kar text dikhayein
-    messageElement.innerText = apiResponseText;
-    
-    // === CHANGE: Bot ka reply Firestore mein save karein ===
-    saveToFirestore("bot", apiResponseText);
-
-  } catch (error) {
-    console.log(error);
-    messageElement.innerText = error.message;
-    messageElement.style.color = "#ff0000";
   } finally {
     userData.file = {};
     incomingMessageDiv.classList.remove("thinking");
