@@ -24,9 +24,38 @@ const fileCancelButton = fileUploadWrapper.querySelector("#file-cancel");
 const chatbotToggler = document.querySelector("#chatbot-toggler");
 const closeChatbot = document.querySelector("#close-chatbot");
 
-// API setup
-const API_KEY = "AIzaSyDQ0USXawKchus3EDwUi3EnKGqU1Z0GO3A"; 
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+// Google Apps Script ka URL yahan dalein
+const PROXY_URL = "APNA_GOOGLE_SCRIPT_URL_YAHAN_PASTE_KAREIN";
+
+const generateBotResponse = async (incomingMessageDiv) => {
+  const messageElement = incomingMessageDiv.querySelector(".message-text");
+  
+  const requestOptions = {
+    method: "POST",
+    // Headers mein JSON.stringify ki zaroorat nahi Google Script ke liye simple rakhein
+    body: JSON.stringify({
+      contents: chatHistory, 
+    }),
+  };
+
+  try {
+    // Ab hum direct Gemini ko nahi balki Google Script ko call kar rahe hain
+    const response = await fetch(PROXY_URL, requestOptions);
+    const data = await response.json();
+    
+    if (data.error) throw new Error(data.error);
+    
+    const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+    messageElement.innerText = apiResponseText;
+    
+    saveToFirestore("bot", apiResponseText);
+
+  } catch (error) {
+    console.log(error);
+    messageElement.innerText = "Error: API Key Hidden & Secure!";
+  }
+  // ... baki finally wala code wahi rahega
+};
 
 // Initialize user message and file data
 const userData = {
