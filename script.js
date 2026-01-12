@@ -25,7 +25,7 @@ const chatbotToggler = document.querySelector("#chatbot-toggler");
 const closeChatbot = document.querySelector("#close-chatbot");
 
 // Google Apps Script ka URL yahan dalein
-const PROXY_URL = "APNA_GOOGLE_SCRIPT_URL_YAHAN_PASTE_KAREIN";
+const PROXY_URL = "https://script.google.com/macros/s/AKfycbyhoCZkwrhfC4hSE30UT3pLg7wgbvrui0CwTd8MLeVVplSfYF4FrjeKhxGX2_O2wpJS/exec";
 
 const generateBotResponse = async (incomingMessageDiv) => {
   const messageElement = incomingMessageDiv.querySelector(".message-text");
