@@ -55,6 +55,15 @@ const generateBotResponse = async (incomingMessageDiv) => {
     messageElement.innerText = "Error: API Key Hidden & Secure!";
   }
   // ... baki finally wala code wahi rahega
+  } finally {
+    userData.file = {};
+    incomingMessageDiv.classList.remove("thinking");
+    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
+    
+    // Thinking wala temporary div remove kar dete hain kyunki
+    // Firestore `onSnapshot` naya, permanent message load karega
+    setTimeout(() => incomingMessageDiv.remove(), 100); 
+  }
 };
 
 // Initialize user message and file data
@@ -136,18 +145,7 @@ const loadMessagesFromFirestore = () => {
 loadMessagesFromFirestore();
 
 
-// --- 4. MAIN CHAT LOGIC ---
-
-  } finally {
-    userData.file = {};
-    incomingMessageDiv.classList.remove("thinking");
-    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
-    
-    // Thinking wala temporary div remove kar dete hain kyunki
-    // Firestore `onSnapshot` naya, permanent message load karega
-    setTimeout(() => incomingMessageDiv.remove(), 100); 
-  }
-};
+// --- 4. MAIN CHAT LOGIC---
 
 // Handle outgoing user messages
 const handleOutgoingMessage = (e) => {
