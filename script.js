@@ -49,12 +49,12 @@ const generateBotResponse = async (incomingMessageDiv) => {
     messageElement.innerText = apiResponseText;
     
     saveToFirestore("bot", apiResponseText);
+  };
 
   } catch (error) {
     console.log(error);
     messageElement.innerText = "Error: API Key Hidden & Secure!";
-  }
-  // ... baki finally wala code wahi rahega
+  
   } finally {
     userData.file = {};
     incomingMessageDiv.classList.remove("thinking");
