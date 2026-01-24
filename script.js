@@ -49,7 +49,6 @@ const generateBotResponse = async (incomingMessageDiv) => {
     messageElement.innerText = apiResponseText;
     
     saveToFirestore("bot", apiResponseText);
-  };
 
   } catch (error) {
     console.log(error);
@@ -63,8 +62,8 @@ const generateBotResponse = async (incomingMessageDiv) => {
     // Thinking wala temporary div remove kar dete hain kyunki
     // Firestore `onSnapshot` naya, permanent message load karega
     setTimeout(() => incomingMessageDiv.remove(), 100); 
+    
   }
-};
 
 // Initialize user message and file data
 const userData = {
