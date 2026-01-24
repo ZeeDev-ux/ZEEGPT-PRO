@@ -28,42 +28,32 @@ const closeChatbot = document.querySelector("#close-chatbot");
 const PROXY_URL = "https://script.google.com/macros/s/AKfycbyhoCZkwrhfC4hSE30UT3pLg7wgbvrui0CwTd8MLeVVplSfYF4FrjeKhxGX2_O2wpJS/exec";
 
 const generateBotResponse = async (incomingMessageDiv) => {
-  const messageElement = incomingMessageDiv.querySelector(".message-text");
-  
-  const requestOptions = {
-    method: "POST",
-    // Headers mein JSON.stringify ki zaroorat nahi Google Script ke liye simple rakhein
-    body: JSON.stringify({
-      contents: chatHistory, 
-    }),
-  };
+    const messageElement = incomingMessageDiv.querySelector(".message-text");
 
-  try {
-    // Ab hum direct Gemini ko nahi balki Google Script ko call kar rahe hain
-    const response = await fetch(PROXY_URL, requestOptions);
-    const data = await response.json();
-    
-    if (data.error) throw new Error(data.error);
-    
-    const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
-    messageElement.innerText = apiResponseText;
-    
-    saveToFirestore("bot", apiResponseText);
+    try {
+        // Ab hum direct Gemini ko nahi balki Google Script ko call kar rahe hain
+        const response = await fetch(PROXY_URL, requestOptions);
+        const data = await response.json();
 
-  } catch (error) {
-    console.log(error);
-    messageElement.innerText = "Error: API Key Hidden & Secure!";
-  
-  } finally {
-    userData.file = {};
-    incomingMessageDiv.classList.remove("thinking");
-    chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
-    
-    // Thinking wala temporary div remove kar dete hain kyunki
-    // Firestore `onSnapshot` naya, permanent message load karega
-    setTimeout(() => incomingMessageDiv.remove(), 100); 
-    
-  }
+        if (data.error) throw new Error(data.error);
+
+        const apiResponseText = data.candidates[0].content.parts[0].text.replace(/\*\*(.*?)\*\*/g, "$1").trim();
+        messageElement.innerText = apiResponseText;
+
+        saveToFirestore("bot", apiResponseText);
+
+    } catch (error) {
+        console.log(error);
+        messageElement.innerText = "Error: API Key Hidden & Secure!";
+    } finally {
+        userData.file = {};
+        incomingMessageDiv.classList.remove("thinking");
+        chatBody.scrollTo({ top: chatBody.scrollHeight, behavior: "smooth" });
+
+        // Thinking wala temporary div remove kar dete hain
+        setTimeout(() => incomingMessageDiv.remove(), 100);
+    }
+}; // <--- Yeh bracket lagana zaroori hai
 
 // Initialize user message and file data
 const userData = {
